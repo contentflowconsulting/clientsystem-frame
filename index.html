@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Último Paso - Client System</title>
+  <meta name="description" content="Completa este último paso antes de tu Sesión de Claridad Comercial." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {--brand-1:#00d4ff; --brand-2:#0099ff; --bg:#000; --fg:#fff}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);margin:0;padding:0}
+    .gradient-text{background:linear-gradient(135deg,var(--brand-1),var(--brand-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .shadow-glow{box-shadow:0 0 30px rgba(0,212,255,.25)}
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,153,255,0.1));
+      border: 1px solid rgba(0,212,255,0.3);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--brand-1);
+      margin-bottom: 2rem;
+    }
+
+    .paso-card {
+      background: rgba(20,20,20,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .paso-card h3 {
+      font-size: 1.1rem;
+    }
+
+    .paso-card p {
+      font-size: 0.85rem;
+    }
+
+    .paso-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      box-shadow: 0 0 20px rgba(0,212,255,0.2);
+    }
+
+    .paso-number {
+      display: inline-block;
+      color: var(--brand-1);
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .condicion-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .condicion-item:last-child {
+      border-bottom: none;
+    }
+
+    .condicion-icon {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .video-placeholder {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: rgba(20,20,20,0.8);
+      border: 2px dashed rgba(0,212,255,0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    @media (min-width: 769px) {
+      .video-container {
+        transform: scale(1.2);
+        margin-top: 4rem !important;
+        margin-bottom: 6rem !important;
+        padding: 2rem 0;
+      }
+    }
+
+    .video-placeholder:hover {
+      border-color: rgba(0,212,255,0.6);
+      box-shadow: 0 0 30px rgba(0,212,255,0.2);
+    }
+
+    .video-placeholder-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    .play-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.6;
+    }
+
+    .warning-box {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(67, 56, 202, 0.3));
+      border: 1px solid rgba(99, 102, 241, 0.5);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .condiciones-card {
+      background: rgba(20,20,20,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .badge-top {
+        font-size: 0.75rem;
+        padding: 10px 16px;
+      }
+
+      .paso-card {
+        padding: 1.25rem;
+      }
+
+      .paso-card h3 {
+        font-size: 1rem;
+      }
+
+      .paso-card p {
+        font-size: 0.82rem;
+      }
+
+      .play-icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .subtitle-video {
+        font-size: 0.9rem !important;
+      }
+
+      .warning-text {
+        font-size: 0.75rem !important;
+      }
+
+      /* Mobile: pasos en columna con borde izquierdo de color */
+      .grid.md\:grid-cols-2 {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+
+      .paso-card {
+        border-left: 3px solid var(--brand-1) !important;
+        border-radius: 12px;
+      }
+
+      .paso-number {
+        font-size: 0.75rem;
+      }
+
+      /* Video más compacto en mobile */
+      .video-container {
+        transform: none !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 2rem !important;
+        padding: 0 !important;
+      }
+
+      /* Título más impactante en mobile */
+      h1 {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+      }
+
+      /* Más espacio entre items de lista */
+      .space-y-3 > li {
+        padding: 0.25rem 0;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <section class="min-h-screen flex flex-col items-center justify-center px-6 md:px-12 py-12 bg-black">
+    <div class="max-w-4xl mx-auto w-full">
+
+      <!-- Logo -->
+      <div class="mb-8 text-center">
+        <!-- Reemplaza el src con la URL de tu logo de Client System -->
+        <img src="YOUR_LOGO_URL_HERE" alt="Client System Logo" class="mx-auto w-32 md:w-40 drop-shadow-lg" />
+      </div>
+
+      <!-- Título principal -->
+      <h1 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight text-white" style="font-family:'Poppins',sans-serif">
+        Espera — dos pasos antes<br/>de que cierres esta página
+      </h1>
+
+      <!-- Subtítulo -->
+      <p class="subtitle-video text-slate-300 text-center mb-8 max-w-3xl mx-auto leading-relaxed px-4" style="font-size: 1.0625rem;">
+        Mira este video antes de la llamada para que aprovechemos al máximo el tiempo juntos.
+      </p>
+
+      <!-- Video -->
+      <div class="mb-16 mt-8 shadow-glow video-container">
+        <div class="video-placeholder">
+          <!-- Cuando tengas el video, reemplaza este bloque con el embed de Loom o YouTube -->
+          <div class="video-placeholder-content">
+            <div class="play-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+            <p class="text-slate-400 text-sm">El video se cargará aquí</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pasos -->
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+
+        <!-- Paso 1 -->
+        <div class="paso-card">
+          <div class="paso-number">PASO #1</div>
+          <h3 class="text-xl font-bold mb-2">Mira el video completo.</h3>
+          <p class="text-slate-400 text-sm">Tiene el contexto que necesitas para que la sesión tenga sentido y aprovechemos bien el tiempo juntos.</p>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="paso-card">
+          <div class="paso-number">PASO #2</div>
+          <h3 class="text-xl font-bold mb-2">Prepárate para la sesión.</h3>
+          <p class="text-slate-400 text-sm mb-4">Llega con esto claro y la sesión va a ser mucho más útil para ti:</p>
+          <ul class="text-slate-400 text-sm space-y-3">
+            <li class="flex items-start gap-2">
+              <span class="mt-1 flex-shrink-0" style="color:var(--brand-1)">→</span>
+              <span>Tener <strong class="text-white">45 minutos disponibles</strong> sin interrupciones</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 flex-shrink-0" style="color:var(--brand-1)">→</span>
+              <span>Si tomas decisiones con alguien más, <strong class="text-white">asegúrate de que esté en la llamada</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 flex-shrink-0" style="color:var(--brand-1)">→</span>
+              <span>Llegar con <strong class="text-white">contexto real de cómo está tu negocio</strong> actualmente</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 border-t border-slate-800">
+    <p class="text-slate-600 text-sm">© <span id="year"></span> Client System. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
