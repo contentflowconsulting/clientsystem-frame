@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Último Paso - Client System</title>
   <meta name="description" content="Completa este último paso antes de tu Sesión de Claridad Comercial." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Poppins:wght@400;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {--brand-1:#00d4ff; --brand-2:#0099ff; --bg:#000; --fg:#fff}
@@ -203,14 +203,89 @@
 
       /* Título más impactante en mobile */
       h1 {
-        font-size: 1.75rem !important;
-        line-height: 1.2 !important;
+        font-size: 1.35rem !important;
+        line-height: 1.25 !important;
+        letter-spacing: -0.3px;
       }
 
       /* Más espacio entre items de lista */
       .space-y-3 > li {
         padding: 0.25rem 0;
       }
+    }
+
+    /* Botón de confirmación */
+    .btn-confirmar {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      margin: 2rem auto 0;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, #00d4ff, #0099ff);
+      color: #000;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: not-allowed;
+      opacity: 0.4;
+      transition: all 0.4s ease;
+      text-align: center;
+    }
+
+    .btn-confirmar.activo {
+      opacity: 1;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
+    }
+
+    .btn-confirmar.activo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0, 212, 255, 0.6);
+    }
+
+    .countdown-text {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: 0.6rem;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Página de confirmación */
+    #confirmacion-page {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #confirmacion-page.visible {
+      display: flex;
+    }
+
+    .check-circle {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #00d4ff, #0099ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      animation: popIn 0.4s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -222,11 +297,11 @@
       <!-- Logo -->
       <div class="mb-8 text-center">
         <!-- Reemplaza el src con la URL de tu logo de Client System -->
-        <img src="Logosinfondo.png" alt="Client System Logo" class="mx-auto w-32 md:w-40 drop-shadow-lg" />
+        <img src="YOUR_LOGO_URL_HERE" alt="Client System Logo" class="mx-auto w-32 md:w-40 drop-shadow-lg" />
       </div>
 
       <!-- Título principal -->
-      <h1 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight text-white" style="font-family:'Poppins',sans-serif">
+      <h1 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight text-white" style="font-family:'Montserrat',sans-serif; font-weight:900;">
         Espera — dos pasos antes<br/>de que cierres esta página
       </h1>
 
@@ -283,8 +358,31 @@
 
       </div>
 
+      <!-- Botón de confirmación -->
+      <div class="mt-8 mb-4">
+        <button id="btn-confirmar" class="btn-confirmar" disabled onclick="mostrarConfirmacion()">
+          Confirmar mi llamada
+        </button>
+        <p id="countdown-text" class="countdown-text"></p>
+      </div>
+
     </div>
   </section>
+
+  <!-- Página de confirmación -->
+  <div id="confirmacion-page">
+    <div class="check-circle">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="black">
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+      </svg>
+    </div>
+    <h2 style="font-family:'Montserrat',sans-serif; font-weight:900; font-size:1.8rem; color:white; margin-bottom:1rem;">
+      Todo listo — nos vemos pronto
+    </h2>
+    <p style="color:#94a3b8; font-size:0.95rem; max-width:320px; line-height:1.6;">
+      Revisa tu correo para el enlace de Google Meet y nos vemos en la sesión.
+    </p>
+  </div>
 
   <!-- Footer -->
   <footer class="text-center py-8 border-t border-slate-800">
@@ -293,6 +391,26 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Countdown de 60 segundos — botón se alumbra solo al terminar
+    let segundos = 60;
+    const btn = document.getElementById('btn-confirmar');
+    const countdownText = document.getElementById('countdown-text');
+
+    const timer = setInterval(() => {
+      segundos--;
+      if (segundos <= 0) {
+        clearInterval(timer);
+        btn.disabled = false;
+        btn.classList.add('activo');
+      }
+    }, 1000);
+
+    function mostrarConfirmacion() {
+      const page = document.getElementById('confirmacion-page');
+      page.classList.add('visible');
+      window.scrollTo(0, 0);
+    }
   </script>
 
 </body>
