@@ -13,22 +13,6 @@
     .gradient-text{background:linear-gradient(135deg,var(--brand-1),var(--brand-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .shadow-glow{box-shadow:0 0 30px rgba(0,212,255,.25)}
 
-    .badge-top {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,153,255,0.1));
-      border: 1px solid rgba(0,212,255,0.3);
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--brand-1);
-      margin-bottom: 2rem;
-    }
-
     .paso-card {
       background: rgba(20,20,20,0.6);
       border: 1px solid rgba(255,255,255,0.08);
@@ -37,13 +21,8 @@
       transition: all 0.3s ease;
     }
 
-    .paso-card h3 {
-      font-size: 1.1rem;
-    }
-
-    .paso-card p {
-      font-size: 0.85rem;
-    }
+    .paso-card h3 { font-size: 1.1rem; }
+    .paso-card p { font-size: 0.85rem; }
 
     .paso-card:hover {
       border-color: rgba(0,212,255,0.4);
@@ -60,161 +39,131 @@
       text-transform: uppercase;
     }
 
-    .condicion-item {
+    /* ─── VIDEO PLAYER ─────────────────────────────── */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      /* Formato vertical 9:16 para mobile */
+      aspect-ratio: 9 / 16;
+      max-width: 360px;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(0,212,255,0.15);
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none; /* evita controles nativos al tocar */
+    }
+
+    /* Overlay negro inicial */
+    #video-overlay {
+      position: absolute;
+      inset: 0;
+      background: #000;
       display: flex;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       gap: 12px;
-      padding: 0.85rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: opacity 0.4s ease;
+      z-index: 10;
     }
 
-    .condicion-item:last-child {
-      border-bottom: none;
+    #video-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .condicion-icon {
-      flex-shrink: 0;
-      width: 22px;
-      height: 22px;
-      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+    .play-btn-circle {
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 2px;
+      background: rgba(255,255,255,0.05);
+      transition: all 0.2s ease;
     }
 
-    .video-placeholder {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      background: rgba(20,20,20,0.8);
-      border: 2px dashed rgba(0,212,255,0.3);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.3s ease;
+    #video-overlay:hover .play-btn-circle {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.1);
     }
+
+    .play-btn-circle svg {
+      margin-left: 4px;
+    }
+
+    /* Controles minimalistas encima del video */
+    .video-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 0 10px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Barra de progreso gris minimalista */
+    .progress-bar-track {
+      width: calc(100% - 24px);
+      margin: 0 12px;
+      height: 2px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,0.55);
+      border-radius: 2px;
+      transition: width 0.5s linear;
+    }
+
+    /* Icono de audio minimalista */
+    .audio-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 30;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      display: none; /* se muestra al iniciar el video */
+    }
+
+    .audio-btn:hover { opacity: 1; }
+
+    .audio-btn svg { display: block; }
+
+    /* ─────────────────────────────────────────────── */
 
     @media (min-width: 769px) {
       .video-container {
-        transform: scale(1.2);
-        margin-top: 4rem !important;
-        margin-bottom: 6rem !important;
-        padding: 2rem 0;
+        margin-top: 2rem !important;
+        margin-bottom: 3rem !important;
+      }
+      .video-wrapper {
+        max-width: 300px;
       }
     }
 
-    .video-placeholder:hover {
-      border-color: rgba(0,212,255,0.6);
-      box-shadow: 0 0 30px rgba(0,212,255,0.2);
-    }
-
-    .video-placeholder-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      width: 100%;
-      padding: 2rem;
-    }
-
-    .play-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 1rem;
-      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.6;
-    }
-
-    .warning-box {
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(67, 56, 202, 0.3));
-      border: 1px solid rgba(99, 102, 241, 0.5);
-      border-radius: 12px;
-      padding: 1rem 1.5rem;
-      margin: 1.5rem 0;
-    }
-
-    .condiciones-card {
-      background: rgba(20,20,20,0.6);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 1.5rem 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .badge-top {
-        font-size: 0.75rem;
-        padding: 10px 16px;
-      }
-
-      .paso-card {
-        padding: 1.25rem;
-      }
-
-      .paso-card h3 {
-        font-size: 1rem;
-      }
-
-      .paso-card p {
-        font-size: 0.82rem;
-      }
-
-      .play-icon {
-        width: 60px;
-        height: 60px;
-      }
-
-      .subtitle-video {
-        font-size: 0.9rem !important;
-      }
-
-      .warning-text {
-        font-size: 0.75rem !important;
-      }
-
-      /* Mobile: pasos en columna con borde izquierdo de color */
-      .grid.md\:grid-cols-2 {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 1rem !important;
-      }
-
-      .paso-card {
-        border-left: 3px solid var(--brand-1) !important;
-        border-radius: 12px;
-      }
-
-      .paso-number {
-        font-size: 0.75rem;
-      }
-
-      /* Video más compacto en mobile */
-      .video-container {
-        transform: none !important;
-        margin-top: 1.5rem !important;
-        margin-bottom: 2rem !important;
-        padding: 0 !important;
-      }
-
-      /* Título en mobile */
-      h1 {
-        font-size: 1.65rem !important;
-        line-height: 1.2 !important;
-        letter-spacing: 0.5px;
-      }
-
-      /* Más espacio entre items de lista */
-      .space-y-3 > li {
-        padding: 0.25rem 0;
-      }
-    }
-
-    /* Botón de confirmación */
     .btn-confirmar {
       display: block;
       width: 100%;
@@ -253,7 +202,6 @@
       transition: opacity 0.3s ease;
     }
 
-    /* Página de confirmación */
     #confirmacion-page {
       display: none;
       position: fixed;
@@ -267,9 +215,7 @@
       text-align: center;
     }
 
-    #confirmacion-page.visible {
-      display: flex;
-    }
+    #confirmacion-page.visible { display: flex; }
 
     .check-circle {
       width: 80px;
@@ -285,7 +231,28 @@
 
     @keyframes popIn {
       from { transform: scale(0); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .grid.md\:grid-cols-2 {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      .paso-card {
+        border-left: 3px solid var(--brand-1) !important;
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+      .paso-card h3 { font-size: 1rem; }
+      .paso-card p  { font-size: 0.82rem; }
+      .paso-number  { font-size: 0.75rem; }
+      h1 {
+        font-size: 1.65rem !important;
+        line-height: 1.2 !important;
+        letter-spacing: 0.5px;
+      }
     }
   </style>
 </head>
@@ -296,46 +263,80 @@
 
       <!-- Logo -->
       <div class="mb-8 text-center">
-        <!-- Reemplaza el src con la URL de tu logo de Client System -->
-        <img src="Logosinfondo.png" alt="Client System Logo" class="mx-auto w-32 md:w-40 drop-shadow-lg" />
+        <img src="YOUR_LOGO_URL_HERE" alt="Client System Logo" class="mx-auto w-32 md:w-40 drop-shadow-lg" />
       </div>
 
-      <!-- Título principal -->
-      <h1 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight text-white" style="font-family:'Oswald',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px;">
+      <!-- Título -->
+      <h1 class="text-3xl md:text-5xl font-black text-center mb-4 leading-tight text-white"
+          style="font-family:'Oswald',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:1px;">
         Últimos pasos para confirmar<br/>y mantener tu sesión agendada.
       </h1>
 
       <!-- Subtítulo -->
-      <p class="subtitle-video text-slate-300 text-center mb-8 max-w-3xl mx-auto leading-relaxed px-4" style="font-size: 1.0625rem;">
+      <p class="text-slate-300 text-center mb-8 max-w-3xl mx-auto leading-relaxed px-4" style="font-size:1.0625rem;">
         Mira este video antes de la llamada para que aprovechemos al máximo el tiempo juntos.
       </p>
 
-      <!-- Video -->
-      <div class="mb-16 mt-8 shadow-glow video-container">
-        <div class="video-placeholder">
-          <!-- Cuando tengas el video, reemplaza este bloque con el embed de Loom o YouTube -->
-          <div class="video-placeholder-content">
-            <div class="play-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+      <!-- ── VIDEO PLAYER ── -->
+      <div class="mb-12 mt-6 video-container">
+        <div class="video-wrapper shadow-glow">
+
+          <!-- El video. Reemplaza src="TU_VIDEO.mp4" con la URL directa de tu video -->
+          <video
+            id="mi-video"
+            src="TU_VIDEO.mp4"
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            muted
+          ></video>
+
+          <!-- Overlay negro con botón play -->
+          <div id="video-overlay" onclick="iniciarVideo()">
+            <div class="play-btn-circle">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
                 <path d="M8 5v14l11-7z"/>
               </svg>
             </div>
-            <p class="text-slate-400 text-sm">El video se cargará aquí</p>
+            <p style="color:rgba(255,255,255,0.4); font-size:0.75rem; letter-spacing:0.5px;">Toca para ver</p>
           </div>
+
+          <!-- Icono de audio (aparece al iniciar) -->
+          <button class="audio-btn" id="audio-btn" onclick="toggleAudio()">
+            <!-- Icono muted -->
+            <svg id="icon-muted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+            <!-- Icono con sonido -->
+            <svg id="icon-sound" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+
+          <!-- Barra de progreso minimalista -->
+          <div class="video-controls">
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+          </div>
+
         </div>
       </div>
+      <!-- ── FIN VIDEO PLAYER ── -->
 
       <!-- Pasos -->
       <div class="grid md:grid-cols-2 gap-6 mb-10">
 
-        <!-- Paso 1 -->
         <div class="paso-card">
           <div class="paso-number">PASO #1</div>
           <h3 class="text-xl font-bold mb-2">Mira el video completo.</h3>
           <p class="text-slate-400 text-sm">Es parte del proceso previo y te dará el contexto necesario para que la sesión tenga sentido.</p>
         </div>
 
-        <!-- Paso 2 -->
         <div class="paso-card">
           <div class="paso-number">PASO #2</div>
           <h3 class="text-xl font-bold mb-2">Prepárate para la sesión.</h3>
@@ -358,9 +359,11 @@
 
       </div>
 
-      <!-- Botón de confirmación -->
+      <!-- Botón confirmación -->
       <div class="mt-8 mb-4">
-        <p class="text-center text-slate-400 text-sm mb-6 max-w-md mx-auto leading-relaxed">Las personas que completan estos pasos suelen aprovechar mucho mejor la sesión y salen con mayor claridad.</p>
+        <p class="text-center text-slate-400 text-sm mb-6 max-w-md mx-auto leading-relaxed">
+          Las personas que completan estos pasos suelen aprovechar mucho mejor la sesión y salen con mayor claridad.
+        </p>
         <button id="btn-confirmar" class="btn-confirmar" disabled onclick="mostrarConfirmacion()">
           Confirmar mi asistencia
         </button>
@@ -393,11 +396,9 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Countdown de 60 segundos — botón se alumbra solo al terminar
+    // ── Countdown botón ──
     let segundos = 60;
     const btn = document.getElementById('btn-confirmar');
-    const countdownText = document.getElementById('countdown-text');
-
     const timer = setInterval(() => {
       segundos--;
       if (segundos <= 0) {
@@ -408,10 +409,64 @@
     }, 1000);
 
     function mostrarConfirmacion() {
-      const page = document.getElementById('confirmacion-page');
-      page.classList.add('visible');
+      document.getElementById('confirmacion-page').classList.add('visible');
       window.scrollTo(0, 0);
     }
+
+    // ── Video player ──
+    const video       = document.getElementById('mi-video');
+    const overlay     = document.getElementById('video-overlay');
+    const audioBtn    = document.getElementById('audio-btn');
+    const iconMuted   = document.getElementById('icon-muted');
+    const iconSound   = document.getElementById('icon-sound');
+    const progressFill = document.getElementById('progress-fill');
+
+    function iniciarVideo() {
+      // Arranca silenciado (necesario por políticas de autoplay mobile)
+      video.muted = true;
+      video.play().then(() => {
+        overlay.classList.add('hidden');
+        audioBtn.style.display = 'block';
+      }).catch(err => console.log('Play error:', err));
+    }
+
+    function toggleAudio() {
+      video.muted = !video.muted;
+      iconMuted.style.display = video.muted ? 'block' : 'none';
+      iconSound.style.display = video.muted ? 'none' : 'block';
+    }
+
+    // Actualizar barra de progreso
+    video.addEventListener('timeupdate', () => {
+      if (video.duration) {
+        const pct = (video.currentTime / video.duration) * 100;
+        progressFill.style.width = pct + '%';
+      }
+    });
+
+    // No se repite al terminar
+    video.addEventListener('ended', () => {
+      progressFill.style.width = '100%';
+      // El video se queda en el último frame, sin loop
+    });
+
+    // Bloquear pausa y retroceso al tocar el video
+    video.addEventListener('click', (e) => e.preventDefault());
+    video.addEventListener('pause', () => {
+      // Si se pausa por cualquier causa externa (tap en mobile), reanudar
+      if (!video.ended) {
+        video.play();
+      }
+    });
+    // Bloquear seeking (arrastrar barra nativa)
+    video.addEventListener('seeking', () => {
+      if (Math.abs(video.currentTime - video.lastTime) > 0.5) {
+        video.currentTime = video.lastTime || 0;
+      }
+    });
+    video.addEventListener('timeupdate', () => {
+      if (!video.paused) video.lastTime = video.currentTime;
+    });
   </script>
 
 </body>
